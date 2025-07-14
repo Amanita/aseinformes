@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Informe Técnico Multipágina</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 2cm;
+      color: #000;
+    }
+
+    h1, h2, h3 {
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .section {
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    th, td {
+      border: 1px solid #000;
+      padding: 8px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #eee;
+    }
+
+    .firma {
+      margin-top: 50px;
+    }
+
+    .page-break {
+      page-break-before: always;
+    }
+
+    img.anexo {
+      width: 100%;
+      margin-top: 10px;
+      page-break-inside: avoid;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Página 1 -->
+<h1>Informe Técnico de Inspección</h1>
+
+<div class="section">
+  <p><strong>Proyecto:</strong> {{ proyecto }}</p>
+  <p><strong>Cliente:</strong> {{ cliente }}</p>
+  <p><strong>Fecha:</strong> {{ fecha }}</p>
+  <p><strong>Inspector:</strong> {{ inspector }}</p>
+</div>
+
+<div class="firma">
+  <p>____________________________</p>
+  <p>Firma del Ingeniero Revisor</p>
+</div>
+
+<div class="page-break"></div>
+
+<!-- Página 2: Procedimiento -->
+<h2>Procedimiento / Descripción Técnica</h2>
+
+<div class="section">
+  <p>
+    Este informe corresponde a los ensayos realizados según procedimientos internos y normas internacionales aplicables para la evaluación no destructiva de soldaduras.
+  </p>
+</div>
+
+<div class="page-break"></div>
+
+<!-- Página 3+: Resultados -->
+
+{% if datos_visual %}
+<h2>Inspección Visual</h2>
+<table>
+  <tr><th>Junta</th><th>Resultado</th><th>Observaciones</th></tr>
+  {% for item in datos_visual %}
+  <tr><td>{{ item.junta }}</td><td>{{ item.resultado }}</td><td>{{ item.observaciones }}</td></tr>
+  {% endfor %}
+</table>
+<div class="page-break"></div>
+{% endif %}
+
+
+{% if datos_particulas %}
+<h2>Partículas Magnetizables</h2>
+<table>
+  <tr><th>Junta</th><th>Método</th><th>Resultado</th></tr>
+  {% for item in datos_particulas %}
+  <tr><td>{{ item.junta }}</td><td>{{ item.metodo }}</td><td>{{ item.resultado }}</td></tr>
+  {% endfor %}
+</table>
+<div class="page-break"></div>
+{% endif %}
+
+{% if datos_liquidos %}
+<h2>Líquidos Penetrantes</h2>
+<table>
+  <tr><th>Junta</th><th>Discontinuidad</th><th>Resultado</th></tr>
+  {% for item in datos_liquidos %}
+  <tr><td>{{ item.junta }}</td><td>{{ item.discontinuidad }}</td><td>{{ item.resultado }}</td></tr>
+  {% endfor %}
+</table>
+<div class="page-break"></div>
+{% endif %}
+
+<!-- Última página: Anexos -->
+<h2>Anexo Fotográfico</h2>
+{% if anexos %}
+  {% for imagen in anexos %}
+    <img src="{{ imagen }}" class="anexo">
+  {% endfor %}
+{% else %}
+  <p>No se adjuntaron fotografías en este informe.</p>
+{% endif %}
+
+</body>
+</html>
