@@ -27,7 +27,7 @@ observaciones = st.text_area("Observaciones", height=100)
 if st.button("🔍 Generar vista previa del informe"):
     # Cargar plantilla HTML
     env = Environment(loader=FileSystemLoader("templates"))
-    template = env.get_template("informe_impresion.html")
+    template = env.get_template("informe_multipagina.html")
 
     datos_visual = [{
         "junta": junta,
@@ -58,15 +58,13 @@ if st.button("🔍 Generar vista previa del informe"):
         f.write(html)
 
     # Convertir HTML a PDF
-    #try:
-     #   from weasyprint import HTML
-      #  pdf_path = os.path.join("output", f"informe_{junta}_{tipo_ensayo}.pdf")
-       # HTML(output_path).write_pdf(pdf_path)
-        #st.success("✅ PDF generado con éxito.")
-        #with open(pdf_path, "rb") as f:
-         #   st.download_button("📥 Descargar PDF", f, file_name=os.path.basename(pdf_path))
-    #except Exception as e:
-     #   st.error(f"❌ Error al generar PDF: {e}")
+    try:
+        from weasyprint import HTML
+        pdf_path = os.path.join("output", f"informe_{junta}_{tipo_ensayo}.pdf")
+        HTML(output_path).write_pdf(pdf_path)
+        st.success("✅ PDF generado con éxito.")
+        with open(pdf_path, "rb") as f:
+            st.download_button("📥 Descargar PDF", f, file_name=os.path.basename(pdf_path))
+    except Exception as e:
+      st.error(f"❌ Error al generar PDF: {e}")
 
-components.html(html, height=800, scrolling=True)
-st.info("🖨️ Usa Ctrl + P o 'Imprimir' para guardar este informe como PDF.")
