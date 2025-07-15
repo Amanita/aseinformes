@@ -68,5 +68,5 @@ if st.button("🔍 Generar vista previa del informe"):
     #except Exception as e:
      #   st.error(f"❌ Error al generar PDF: {e}")
 
-st.components.v1.html(html, height=800, scrolling=True)
+components.html(html, height=800, scrolling=True)
 st.info("🖨️ Usa Ctrl + P o 'Imprimir' para guardar este informe como PDF.")
