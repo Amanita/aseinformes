@@ -1,6 +1,7 @@
 import streamlit as st
 from jinja2 import Environment, FileSystemLoader
 import os
+import streamlit.components.v1 as components
 
 # ✅ Configuración de la página (va aquí)
 st.set_page_config(page_title="Informe Técnico ASEI", layout="centered")
@@ -48,7 +49,8 @@ if st.button("🔍 Generar vista previa del informe"):
     # Mostrar vista previa en la app
     st.markdown("---")
     st.subheader("Vista previa del informe generado:")
-    st.components.v1.html(html, height=400, scrolling=True)
+    components.html(html, height=800, scrolling=True)
+
 
     # Guardar el HTML como archivo temporal
     output_path = os.path.join("output", f"informe_{junta}_{tipo_ensayo}.html")
